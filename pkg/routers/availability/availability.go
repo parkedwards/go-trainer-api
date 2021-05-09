@@ -2,7 +2,9 @@ package availability
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/parkedwards/go-trainer-api/pkg/models"
@@ -32,6 +34,16 @@ func (r *AvailabilityRouter) getTrainerAvailability(w http.ResponseWriter, req *
 	trainerId := chi.URLParam(req, "trainerId")
 	startsAt := req.URL.Query().Get("starts_at")
 	endsAt := req.URL.Query().Get("ends_at")
+
+	// If no starts_at OR ends_at is provided, we will return all avails from now -> 7 days
+	if startsAt == "" || endsAt == "" {
+		now := time.Now().Add(1 * time.Hour)
+		startsAt = now.Format(time.RFC3339)
+		endsAt = now.AddDate(0, 0, 7).Format(time.RFC3339)
+
+		fmt.Println(startsAt)
+		fmt.Println(endsAt)
+	}
 
 	availability, err := r.availabilityMgr.GetTrainerAvailabilityForDateRange(trainerId, startsAt, endsAt)
 

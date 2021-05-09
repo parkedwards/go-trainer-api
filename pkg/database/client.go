@@ -9,6 +9,7 @@ import (
 	"github.com/parkedwards/go-trainer-api/pkg/models"
 )
 
+// This client only reads from one "table" - appointments.json
 const connectionString = "./pkg/database/appointments.json"
 
 // This "DBClient" module acts as a database client,
@@ -20,7 +21,7 @@ func New() *DBClient {
 }
 
 // Not the most efficient, as every query will parse the JSON + load into memory
-// but we are not implementing an efficient datastore here
+// but the goal was not to implement an efficient datastore here
 func (dbc *DBClient) OpenDatabaseConnection(connectionString string) []models.Appointment {
 	raw, err := ioutil.ReadFile(connectionString)
 	if err != nil {
