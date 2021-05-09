@@ -16,6 +16,7 @@ go run cmd/http/main.go
 
 - added numerical `user_id` value to JSON file "database" (was ommited in original JSON)
 - switched to numerical UUID for `trainer_id` upon INSERT; recalculating the index incrementally based on the existing max seemed like an undesirably hacky way to handle this
+- lots of hand-waving on exception handling; normally, I'd handle many of the `_` errs explicitly
 - no tests :(
 
 ## Swagger
