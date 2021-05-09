@@ -23,6 +23,8 @@ View API + make requests here:
 
 http://localhost:8000/swagger/index.html
 
+![image](/docs/swagger.png)
+
 ## Endpoints
 
 |   endpoint    |   query parameters / request body    |   expected statuses | description |
