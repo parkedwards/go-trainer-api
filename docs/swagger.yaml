@@ -1,0 +1,109 @@
+definitions:
+  models.Appointment:
+    properties:
+      ends_at:
+        type: string
+      starts_at:
+        type: string
+      trainer_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  models.Availability:
+    properties:
+      ends_at:
+        type: string
+      starts_at:
+        type: string
+      trainer_id:
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: Find and schedule a time with a trainer.
+  title: Trainer API
+  version: "1.0"
+paths:
+  /appointment:
+    post:
+      consumes:
+      - application/json
+      description: Creates an appointment for {trainerId}, based on startsAt -> endsAt
+      operationId: make-appointment
+      parameters:
+      - description: Appointment Details
+        in: body
+        name: appointmentDetails
+        required: true
+        schema:
+          $ref: '#/definitions/models.Appointment'
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: ""
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Make appointment
+  /appointment/{trainerId}:
+    get:
+      description: Gets all existing appointments for a {trainerId}
+      operationId: get-appointments-by-trainer-id
+      parameters:
+      - description: Trainer ID
+        in: path
+        name: trainerId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Appointment'
+            type: array
+      summary: Get Trainer's Appointments
+  /availability/{trainerId}:
+    get:
+      description: get all available time slots for trainer
+      operationId: get-availability-by-trainer-id
+      parameters:
+      - description: Trainer ID
+        in: path
+        name: trainerId
+        required: true
+        type: string
+      - description: Starts At
+        in: query
+        name: starts_at
+        required: true
+        type: string
+      - description: Ends At
+        in: query
+        name: ends_at
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Availability'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Get Availability for Trainer
+swagger: "2.0"
