@@ -52,7 +52,8 @@ func (dbc *DBClient) Select(q *models.Query) []models.Appointment {
 
 func (dbc *DBClient) Insert(appointment *models.Appointment) {
 	data := dbc.OpenDatabaseConnection(connectionString)
-	appointment.Id = int64(uuid.New().ID())
+	appointmentId := int64(uuid.New().ID())
+	appointment.Id = &appointmentId
 	data = append(data, *appointment)
 
 	raw, _ := json.MarshalIndent(data, "", "	")

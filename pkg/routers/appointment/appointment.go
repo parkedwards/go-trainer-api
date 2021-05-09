@@ -30,7 +30,14 @@ func (r *AppointmentRouter) RegisterRoutes(c chi.Router) {
 	c.Post("/appointment", r.makeAppointment)
 }
 
-// Gets all existing appointments for a {trainerId}
+// getTrainerAppointments godoc
+// @Summary Get Trainer's Appointments
+// @Description Gets all existing appointments for a {trainerId}
+// @ID get-appointments-by-trainer-id
+// @Produce  json
+// @Param trainerId path string true "Trainer ID"
+// @Success 200 {object} []models.Appointment
+// @Router /appointment/{trainerId} [get]
 func (r *AppointmentRouter) getTrainerAppointments(w http.ResponseWriter, req *http.Request) {
 	trainerId := chi.URLParam(req, "trainerId")
 	appointments := r.appointmentsManager.GetAllAppointmentsByTrainerId(trainerId)
@@ -42,7 +49,16 @@ func (r *AppointmentRouter) getTrainerAppointments(w http.ResponseWriter, req *h
 	w.Write(result)
 }
 
-// Creates an appointment for {trainerId}, based on startsAt -> endsAt
+// makeAppointment godoc
+// @Summary Make appointment
+// @Description Creates an appointment for {trainerId}, based on startsAt -> endsAt
+// @ID make-appointment
+// @Accept  json
+// @Produce  json
+// @Param appointmentDetails body models.Appointment true "Appointment Details"
+// @Success 204
+// @Failure 404 {string} string
+// @Router /appointment [post]
 func (r *AppointmentRouter) makeAppointment(w http.ResponseWriter, req *http.Request) {
 	appointmentDetails := &models.Appointment{}
 	json.NewDecoder(req.Body).Decode(&appointmentDetails)

@@ -5,7 +5,7 @@ type Query struct {
 }
 
 type Appointment struct {
-	Id        int64  `json:"id,omitempty"`
+	Id        *int64 `json:"-"`
 	TrainerId int64  `json:"trainer_id"`
 	UserId    int64  `json:"user_id"`
 	StartsAt  string `json:"starts_at"`

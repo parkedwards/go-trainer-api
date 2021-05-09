@@ -10,8 +10,18 @@ import (
 	AvailabilityManager "github.com/parkedwards/go-trainer-api/pkg/managers/availability"
 	AppointmentRouter "github.com/parkedwards/go-trainer-api/pkg/routers/appointment"
 	AvailabilityRouter "github.com/parkedwards/go-trainer-api/pkg/routers/availability"
+
+	_ "github.com/parkedwards/go-trainer-api/docs"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+const (
+	port = ":8000"
+)
+
+// @title Trainer API
+// @version 1.0
+// @description Find and schedule a time with a trainer.
 func Init() *chi.Mux {
 	router := chi.NewRouter()
 
@@ -30,11 +40,16 @@ func Init() *chi.Mux {
 	availabilityRouter.RegisterRoutes(router)
 	appointmentRouter.RegisterRoutes(router)
 
+	router.Get("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL(fmt.Sprintf("http://localhost%v/swagger/doc.json", port)), //The url pointing to API definition"
+	))
+
 	return router
 }
 
 func Boot(router *chi.Mux) {
-	port := ":8000"
 	fmt.Printf("bootin it up at %v", port)
-	http.ListenAndServe(port, router)
+	err := http.ListenAndServe(port, router)
+
+	fmt.Println(err)
 }

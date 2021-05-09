@@ -30,6 +30,18 @@ func (r *AvailabilityRouter) RegisterRoutes(c chi.Router) {
 	c.Get("/availability/{trainerId}", r.getTrainerAvailability)
 }
 
+// getTrainerAvailability godoc
+// @Summary Get Availability for Trainer
+// @Description get all available time slots for trainer
+// @ID get-availability-by-trainer-id
+// @Produce  json
+// @Param trainerId path string true "Trainer ID"
+// @Param starts_at query string true "Starts At"
+// @Param ends_at query string true "Ends At"
+// @Success 200 {object} []models.Availability
+// @Failure 400 {string} string
+// @Failure 404 {string} string
+// @Router /availability/{trainerId} [get]
 func (r *AvailabilityRouter) getTrainerAvailability(w http.ResponseWriter, req *http.Request) {
 	trainerId := chi.URLParam(req, "trainerId")
 	startsAt := req.URL.Query().Get("starts_at")

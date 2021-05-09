@@ -1,0 +1,165 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Find and schedule a time with a trainer.",
+        "title": "Trainer API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/appointment": {
+            "post": {
+                "description": "Creates an appointment for {trainerId}, based on startsAt -\u003e endsAt",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Make appointment",
+                "operationId": "make-appointment",
+                "parameters": [
+                    {
+                        "description": "Appointment Details",
+                        "name": "appointmentDetails",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Appointment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/appointment/{trainerId}": {
+            "get": {
+                "description": "Gets all existing appointments for a {trainerId}",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Trainer's Appointments",
+                "operationId": "get-appointments-by-trainer-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Trainer ID",
+                        "name": "trainerId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Appointment"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/availability/{trainerId}": {
+            "get": {
+                "description": "get all available time slots for trainer",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get Availability for Trainer",
+                "operationId": "get-availability-by-trainer-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Trainer ID",
+                        "name": "trainerId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Starts At",
+                        "name": "starts_at",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Ends At",
+                        "name": "ends_at",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Availability"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Appointment": {
+            "type": "object",
+            "properties": {
+                "ends_at": {
+                    "type": "string"
+                },
+                "starts_at": {
+                    "type": "string"
+                },
+                "trainer_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Availability": {
+            "type": "object",
+            "properties": {
+                "ends_at": {
+                    "type": "string"
+                },
+                "starts_at": {
+                    "type": "string"
+                },
+                "trainer_id": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

@@ -18,6 +18,11 @@ go run cmd/http/main.go
 - switched to numerical UUID for `trainer_id` upon INSERT; recalculating the index incrementally based on the existing max seemed like an undesirably hacky way to handle this
 - no tests :(
 
+## Swagger
+View API + make requests here:
+
+http://localhost:8000/swagger/index.html
+
 ## Endpoints
 
 |   endpoint    |   query parameters / request body    |   expected statuses | description |
